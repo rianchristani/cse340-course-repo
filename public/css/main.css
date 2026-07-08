@@ -1,0 +1,151 @@
+/* Variáveis de cores para manter o padrão e facilitar a leitura (Acessibilidade) */
+:root {
+    --primary-color: #004080; /* Azul escuro profissional */
+    --secondary-color: #f4f6f9; /* Fundo cinza bem claro */
+    --text-color: #333333; /* Cinza escuro para contraste suave */
+    --accent-color: #0066cc; /* Azul claro para links/hover */
+    --white: #ffffff;
+}
+
+/* Reset básico e tipografia */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Faz o footer grudar no fundo */
+}
+
+/* Navegação */
+nav {
+    background-color: var(--white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Ajuda no mobile */
+    justify-content: center;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--accent-color);
+    color: var(--white);
+}
+
+/* Container Principal */
+main {
+    flex: 1; /* Preenche o espaço entre o header e o footer */
+    background-color: var(--white);
+    max-width: 900px;
+    width: 90%;
+    margin: 40px auto;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+/* Títulos */
+h1 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h2 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+/* Parágrafos e Listas */
+p {
+    line-height: 1.6;
+}
+
+main ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Estilo de Card para as listas (Organizations e Projects) */
+main ul li {
+    background-color: var(--secondary-color);
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 6px;
+    border-left: 5px solid var(--accent-color);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+main ul li img {
+    max-width: 60px;
+    height: auto;
+    border-radius: 50%; /* Deixa os logos das organizações redondos */
+    background-color: var(--white);
+    padding: 5px;
+}
+
+/* Imagem Principal */
+.main-logo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 30px auto 0;
+    border-radius: 8px;
+}
+
+/* Rodapé (Footer) */
+footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Responsividade para Celulares (Mobile) */
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    main {
+        width: 95%;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    main ul li {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+}
