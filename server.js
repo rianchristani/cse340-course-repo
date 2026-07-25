@@ -61,8 +61,15 @@ try {
 });
 
 app.get('/categories', async (req, res) => {
-    const title = 'Service Categories';
-    res.render('categories', { title });
+    try {
+        const categories = await getAllServiceCategories();
+        const title = 'Service Categories';
+        
+        res.render('categories', { title, categories });
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 app.get('/categories/:categoryId', async (req, res) => {
