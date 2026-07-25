@@ -1,10 +1,20 @@
 <%- include('partials/header') %>
     <main>
         <h1><%= title %></h1>
-        <p>Environmental</p>
-        <p>Educational</p>
-        <p>Community Service</p>
-        <p>Health & Wellness</p>
+
+        <ul>
+            <% if (categories && categories.length > 0) { %>
+                <% categories.forEach(category => { %>
+                    <li>
+                        <a href="/categories/<%= category.category_id %>">
+                            <%= category.name %>
+                        </a>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li>No categories found.</li>
+            <% } %>
+        </ul>
 
         <img class="main-logo" src="images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
     </main>
