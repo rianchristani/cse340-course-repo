@@ -23,15 +23,17 @@ VALUES
 -- Team Activities Table
 -- ==========================================
 CREATE TABLE service_projects (
-project_id SERIAL PRIMARY KEY,
-organization_id INTEGER NOT NULL,
-title VARCHAR(150) NOT NULL,
-description TEXT NOT NULL,
-project_location VARCHAR(225) NOT NULL,
-project_date DATE NOT NULL,
+    project_id SERIAL PRIMARY KEY,
+    organization_id INTEGER NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    project_location VARCHAR(225) NOT NULL,
+    project_date DATE NOT NULL,
 
-FOREIGN KEY (organization_id) REFERENCES organization (organization_id)
-)
+    CONSTRAINT fk_projects_organization 
+    FOREIGN KEY (organization_id) 
+    REFERENCES organization (organization_id)
+);
 
 -- ==========================================
 -- Team Activities information (Seed Data)
@@ -71,16 +73,17 @@ VALUES
 -- ==========================================
 
 CREATE TABLE categories (
-category_id SERIAL PRIMARY KEY,
-name VARCHAR(150) NOT NULL
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    CONSTRAINT uq_categories_name UNIQUE (name)
 );
 
 CREATE TABLE project_categories (
-project_id INTEGER NOT NULL,
-category_id INTEGER NOT NULL,
-PRIMARY KEY (project_id, category_id),
-FOREIGN KEY (project_id) REFERENCES service_projects (project_id),
-FOREIGN KEY (category_id) REFERENCES categories (category_id)
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    CONSTRAINT pk_project_categories PRIMARY KEY (project_id, category_id),
+    CONSTRAINT fk_pc_project FOREIGN KEY (project_id) REFERENCES service_projects (project_id) ON DELETE CASCADE,
+    CONSTRAINT fk_pc_category FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE
 );
 
 -- ==========================================
