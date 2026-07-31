@@ -45,7 +45,7 @@ const getUpcomingProjects = async (number_of_projects) => {
             p.project_id,
             p.title,
             p.description,
-            p.project_date AS date,
+            p.project_date,
             p.project_location AS location,
             p.organization_id,
             o.username AS organization_name
