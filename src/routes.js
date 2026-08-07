@@ -35,48 +35,71 @@ import {
     processEditOrganizationForm
 } from './controllers/organizations.js';
 
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout,
+    requireLogin,
+    showDashboard,
+    requireRole,
+    showUsersPage
+} from './controllers/users.js';
 
 const router = express.Router();
 
 router.get('/', showHomePage);
 
-//organizations routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
+
+// User login routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
+
+// Protected dashboard route
+router.get('/dashboard', requireLogin, showDashboard);
+
+// organizations routes
 router.get('/organizations', showOrganizationsPage);
 router.get('/organization/:id', showOrganizationDetailsPage);
-router.get('/new-organization', showNewOrganizationForm);
-// Route to handle new organization form submission
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
-// Route to display the edit organization form
-router.get('/edit-organization/:id', showEditOrganizationForm);
-// Route to handle the edit organization form submission
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+router.get('/organizations/:id', showOrganizationDetailsPage);
 
-//projects routes
+// Admin only Organization routes
+router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
+router.post('/new-organization', requireRole('admin'), organizationValidation, processNewOrganizationForm);
+router.get('/edit-organization/:id', requireRole('admin'), showEditOrganizationForm);
+router.post('/edit-organization/:id', requireRole('admin'), organizationValidation, processEditOrganizationForm);
+
+// projects routes
 router.get('/projects', showProjectsPage);
 router.get('/project/:id', showProjectDetailsPage);
 
-// Route for new project page
-router.get('/new-project', showNewProjectForm);
+// Admin only Project routes
+router.get('/new-project', requireRole('admin'), showNewProjectForm);
+router.post('/new-project', requireRole('admin'), projectValidation, processNewProjectForm);
+router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
+router.post('/edit-project/:id', requireRole('admin'), projectValidation, processEditProjectForm);
 
-// Route to handle new project form submission
-router.post('/new-project', projectValidation, processNewProjectForm);
-
-// Route to display the edit project form
-router.get('/edit-project/:id', showEditProjectForm);
-// Route to handle the edit project form submission
-router.post('/edit-project/:id', projectValidation, processEditProjectForm);
-
-//categories routes
+// categories routes
 router.get('/categories', showCategoriesPage);
-router.get('/new-category', showNewCategoryForm);
-router.post('/new-category', categoryValidation, processNewCategoryForm);
-router.get('/edit-category/:id', showEditCategoryForm);
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 router.get('/category/:id', showCategoryDetailsPage);
 
+// Admin only Category routes
+router.get('/new-category', requireRole('admin'), showNewCategoryForm);
+router.post('/new-category', requireRole('admin'), categoryValidation, processNewCategoryForm);
+router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
+router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 
-router.get('/assign-categories/:projectId', showAssignCategoriesForm);
-router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+// Admin only Assign Categories routes
+router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
+router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
+
+// Admin-only Users Management route
+router.get('/users', requireRole('admin'), showUsersPage);
+
 // error-handling routes
 router.get('/test-error', testErrorPage);
 

@@ -21,4 +21,8 @@
             <% } %>
         </ul>
     </main>
+
+    <% if (user && user.role_name === 'admin') { %>
+    <a href="/edit-category/<%= category.category_id %>">Edit Category</a>
+<% } %>
 <%- include('partials/footer') %>

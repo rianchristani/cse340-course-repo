@@ -2,7 +2,7 @@
     <main>
         <h1><%= title %></h1>
 
-        <p><a href="/new-category">Add a New Category</a></p>
+        <p><% if (user && user.role_name === 'admin') { %><a href="/new-category">Add New Category</a><% } %></p>
 
         <ul>
             <% if (categories && categories.length > 0) { %>
@@ -21,4 +21,5 @@
 
         <img class="main-logo" src="images/cse340-service-network.png" alt="CSE 340 Service Network Logo">
     </main>
+
 <%- include('partials/footer') %>

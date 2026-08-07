@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <h2>Dashboard</h2>
+    <p>Name: <%= name %></p>
+    <p>Username: <%= email %></p>
+
+    <% if (user && user.role_name === 'admin') { %>
+        <section class="admin-tools">
+            <h3>Admin Tools</h3>
+            <p><a href="/users">Manage Users</a></p>
+        </section>
+    <% } %>
+
+</main>
+
+<%- include('partials/footer') %>
