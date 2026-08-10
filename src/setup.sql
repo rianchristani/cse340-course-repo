@@ -162,3 +162,14 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ==========================================
+-- Week 06 - Project Volunteers Table
+-- ==========================================
+CREATE TABLE project_volunteers (
+    project_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_project_volunteers PRIMARY KEY (project_id, user_id),
+    CONSTRAINT fk_pv_project FOREIGN KEY (project_id) REFERENCES service_projects (project_id) ON DELETE CASCADE,
+    CONSTRAINT fk_pv_user FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+);

@@ -7,7 +7,11 @@ import { getCategoriesByProjectId } from '../models/categories.js';
 import { createProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { body, validationResult } from 'express-validator';
-import { updateProject } from '../models/projects.js';
+import { updateProject,
+        addVolunteer,
+        removeVolunteer,
+        isUserVolunteered
+        } from '../models/projects.js';
 
 const projectValidation = [
     body('title')
@@ -46,9 +50,18 @@ const showProjectDetailsPage = async (req, res) => {
     const projectCategories = await getCategoriesByProjectId(projectId);
     const title = 'Project Details';
 
-    res.render('project', { title, project: projectDetails, categories: projectCategories });
-};
+    let isVolunteered = false;
+    if (req.session && req.session.user) {
+        isVolunteered = await isUserVolunteered(projectId, req.session.user.user_id);
+    }
 
+    res.render('project', { 
+        title, 
+        project: projectDetails, 
+        categories: projectCategories, 
+        isVolunteered 
+    });
+};
 const showNewProjectForm = async (req, res) => {
     const organizations = await getAllOrganizations();
     const title = 'Add New Service Project';
@@ -124,5 +137,26 @@ const processEditProjectForm = async (req, res) => {
     }
 };
 
+const processVolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    await addVolunteer(projectId, userId);
+    req.flash('success', 'You have successfully signed up as a volunteer!');
+    res.redirect(`/project/${projectId}`);
+};
+
+const processUnvolunteer = async (req, res) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.user_id;
+
+    await removeVolunteer(projectId, userId);
+    req.flash('success', 'You have removed yourself from this project.');
+    
+    // Se veio do dashboard, redireciona para lá. Senão, volta pro detalhe do projeto.
+    const redirectUrl = req.get('Referrer')?.includes('/dashboard') ? '/dashboard' : `/project/${projectId}`;
+    res.redirect(redirectUrl);
+};
+
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, showEditProjectForm, processEditProjectForm, projectValidation };
+export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, showEditProjectForm, processEditProjectForm, processVolunteer, processUnvolunteer, projectValidation };

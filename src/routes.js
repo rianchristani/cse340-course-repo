@@ -22,7 +22,9 @@ import {
     processNewProjectForm,
     projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    processVolunteer,
+    processUnvolunteer
 } from './controllers/projects.js';
 
 import {
@@ -96,6 +98,10 @@ router.post('/edit-category/:id', requireRole('admin'), categoryValidation, proc
 // Admin only Assign Categories routes
 router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
+
+// Protected Volunteer routes (Login obrigatório)
+router.post('/project/:id/volunteer', requireLogin, processVolunteer);
+router.post('/project/:id/unvolunteer', requireLogin, processUnvolunteer);
 
 // Admin-only Users Management route
 router.get('/users', requireRole('admin'), showUsersPage);
